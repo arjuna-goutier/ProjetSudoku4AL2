@@ -9,9 +9,8 @@ namespace projetCS
 {
     public class Program
     {
-        public static void Main(string[] args)
-        {
-            SudokuManager.DisplayValidity();
+        public static void Main(string[] args) {
+            new SudokuManager(new FileReader()).DisplayValidity();
         }
     }
 }

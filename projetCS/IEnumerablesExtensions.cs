@@ -8,10 +8,7 @@ namespace projetCS
 {
     public static class IEnumerablesExtensions
     {
-        public delegate bool Condition<T>(T t);
-        public delegate bool initialize<T>();
-        public static bool UniqueValues<T>(this IEnumerable<T> values, IEqualityComparer<T> comparer = null)
-        {
+        public static bool UniqueValues<T>(this IEnumerable<T> values, IEqualityComparer<T> comparer = null) {
             HashSet<T> set = new HashSet<T>(comparer);
             foreach (T item in values)
                 if (!set.Add(item))
@@ -19,16 +16,14 @@ namespace projetCS
             return true;
         }
 
-        public static IEnumerable<IEnumerable<T>> SplitWhen<T>(this IEnumerable<T> source,Condition<T> condition) {
+        public static IEnumerable<IEnumerable<T>> SplitWhen<T>(this IEnumerable<T> source,Predicate<T> predicate) {
             int countToSkip = 0;
-            List <IEnumerable<T>> toReturn = new List<IEnumerable<T>>();
             while (countToSkip < source.Count()) {
-                IEnumerable<T> value = source.Skip(countToSkip).TakeWhile((t) => !condition(t));
+                IEnumerable<T> value = source.Skip(countToSkip).TakeWhile((t) => !predicate(t));
                 if(value.Any())
-                    toReturn.Add(value);
+                    yield return value;
                 countToSkip += value.Count() + 1;
             }
-            return toReturn;
         }
         
         public static IEnumerable<IEnumerable<T>> SplitBy<T>(this IEnumerable<T> source, int span) {
@@ -42,6 +37,14 @@ namespace projetCS
 
         public static T[][] ToArrayArray<T>(this IEnumerable<IEnumerable<T>> source) {
             return source.Select(line => line.ToArray()).ToArray();
+        }
+
+        public static IEnumerable<IEnumerable<R>> SelectWithCoordinate<R, T>(this IEnumerable<IEnumerable<T>> source, Func<T, int, int, R> selection) {
+            return source.Select(
+                (line, y) => line.Select(
+                    (value, x) => selection(value,x,y)
+                )
+            );
         }
     }
 }

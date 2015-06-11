@@ -2,68 +2,57 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="projetCS.Case">
     <Position X="0.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="Case" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAYAA=</HashCode>
       <FileName>Cell.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="projetCS.CellValueComparator" BaseTypeListCollapsed="true">
-    <Position X="4.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAACAAAAEAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
-      <FileName>Cell.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
   <Class Name="projetCS.CellGroup">
-    <Position X="2.25" Y="0.75" Width="1.5" />
+    <Position X="3.5" Y="2.75" Width="1.5" />
+    <Members>
+      <Method Name="CellGroup" Hidden="true" />
+      <Method Name="ToString" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAEAAgAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CellGroup.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="cells" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="projetCS.Grille">
-    <Position X="0.5" Y="3" Width="1.5" />
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <Members>
+      <Property Name="areas" Hidden="true" />
+      <Property Name="columns" Hidden="true" />
+      <Method Name="Grille" Hidden="true" />
+      <Property Name="lines" Hidden="true" />
+    </Members>
+    <AssociationLine Name="allGroups" Type="projetCS.CellGroup" FixedToPoint="true">
+      <Path>
+        <Point X="2" Y="3.375" />
+        <Point X="3.5" Y="3.375" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.204" Y="0.122" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>QAgAAAAAAAAAAAAAAAgAAIQAAAIAAAAACAAgAAAgAAA=</HashCode>
       <FileName>Grille.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="grille" />
+      <Property Name="lines" />
+      <Property Name="columns" />
+      <Property Name="areas" />
     </ShowAsAssociation>
-  </Class>
-  <Class Name="projetCS.IEnumerablesExtensions">
-    <Position X="4.25" Y="3" Width="1.5" />
-    <NestedTypes>
-      <Delegate Name="projetCS.IEnumerablesExtensions.Condition&lt;T&gt;" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>IEnumerablesExtensions.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Delegate>
-      <Delegate Name="projetCS.IEnumerablesExtensions.initialize&lt;T&gt;" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>IEnumerablesExtensions.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Delegate>
-    </NestedTypes>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAABCAAAAAAgAAAAAAQ=</HashCode>
-      <FileName>IEnumerablesExtensions.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="projetCS.Program">
-    <Position X="5.75" Y="2.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
-      <FileName>Program.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="projetCS.SudokuReader">
-    <Position X="2.5" Y="4" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAARABAAAAGEAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
-      <FileName>SudokuReader.cs</FileName>
-    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="allGroups" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

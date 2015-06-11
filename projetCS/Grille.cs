@@ -6,6 +6,23 @@ using System.Threading.Tasks;
 
 namespace projetCS
 {
+    public static class Matrices
+    {
+        public static T[,] initialyze<T>(int width, int height, Func<T> initialise) {
+            T[,] toReturn = new T[width,height];
+            for (int y = 0; y < height; ++y)
+                for (int x = 0; x < height; ++x)
+                    toReturn[x, y] = initialise();
+             return toReturn;
+        }
+        public static T[,] initialyze<T>(int width, int height, Func<int,int,T> initialise) {
+            T[,] toReturn = new T[width, height];
+            for (int y = 0; y < height; ++y)
+                for (int x = 0; x < height; ++x)
+                    toReturn[x, y] = initialise(x,y);
+            return toReturn;
+        }
+    }
 
     public class Grille
     {
@@ -30,10 +47,14 @@ namespace projetCS
             get {
                 int areaLength = (int) Math.Sqrt((double) grille.Length);
                 Matrix<List<Case>> regions= new Matrix<List<Case>>(areaLength,areaLength,() => new List<Case>(grille.Length));
+                
                 for(int y = 0 ; y < grille.Count() ; ++y)
 	                for(int x = 0 ; x < grille[y].Count() ; ++x)
+                        //utilisation de la division pour pouvoir arrondir a la bonne region
                         regions.Values[x / areaLength, y / areaLength].Add(grille[y][x]);
-                return regions.Select(cells => new CellGroup(cells));
+
+                return from cells in regions
+                       select new CellGroup(cells);
             }
         }
         private IEnumerable<CellGroup> allGroups {
@@ -41,34 +62,32 @@ namespace projetCS
                 return lines.Concat(columns).Concat(areas);
             }
         }
-
-        public Grille(string name, DateTime creationTime,char[] possibleValues,  char[][] grille) {
-            if (grille.Length == 0)
-                throw new InvalidGrilleException("The grid is empty");
-            if (grille.Length != grille[0].Length)
-                throw new InvalidGrilleException("All lines are not of the same size");
-            if (!grille.All(line => line.Count() == grille[0].Length))
-                throw new InvalidGrilleException("The grid is not a square");
-            if (Math.Sqrt((double)grille.Length) % 1 != 0)
-                throw new InvalidGrilleException("Cannot form valid areas with this size");
-            if (!grille.All(line => line.All(c => possibleValues.Contains(c))))
-                throw new InvalidGrilleException("All values are not in possible values");
-            
-            this.possibleValues = possibleValues;
-            this.grille = grille.Select((line,y) => line.Select((value,x) => new Case(x,y,value)).ToArray()).ToArray();
-            this.Name = name;
-            this.CreationDate = creationTime;
-        }
-        
         public bool IsValid {
             get {
                 return allGroups.All((group) => group.IsValid);
             }
         }
+
+        public Grille(string name, DateTime creationTime,char[] possibleValues,  char[][] grille) {
+            if (grille.Length == 0)
+                throw new InvalidGrilleException("The grid is empty");
+            if (grille.Length != grille[0].Length)
+                throw new InvalidGrilleException("The grid is not a square");
+            if (!grille.All(line => line.Count() == grille[0].Length))
+                throw new InvalidGrilleException("All lines are not of the same size");
+            if (Math.Sqrt((double)grille.Length) % 1 != 0)
+                throw new InvalidGrilleException("Cannot form valid areas with this size(need to have an integer squarer root)");
+            if (!grille.All(line => line.All(c => possibleValues.Contains(c))))
+                throw new InvalidGrilleException("All values are not in possible values");
+            
+            this.possibleValues = possibleValues;
+            this.grille = grille.SelectWithCoordinate((value,x,y) => new Case(x,y,value))
+                                .ToArrayArray();
+            this.Name = name;
+            this.CreationDate = creationTime;
+        }
     }
     public class InvalidGrilleException : Exception {
-        public InvalidGrilleException(string message)
-            : base(message) { }
+        public InvalidGrilleException(string message) : base(message) {}
     }
-
 }

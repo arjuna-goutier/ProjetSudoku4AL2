@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using projetCS;
 namespace TestProjetCS1
 {
     /// <summary>
     /// Description résumée pour TestGrille
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class GrilleTest
     {
         public GrilleTest()
@@ -159,38 +159,38 @@ namespace TestProjetCS1
         // public void MyTestCleanup() { }
         //
         #endregion
-        [TestMethod]
-        public void GrilleIsValid() {
+        [Test]
+        public void should_return_true_when_sudoku_valid() {
             Assert.IsTrue(grille.IsValid, "une grille valide IsValid renvoie juste");
         }
-        [TestMethod]
-        public void GrilleFausseIsNotValid()
+        [Test]
+        public void should_return_false_when_sudoku_invalid()
         {
             Assert.IsFalse(grilleFausse.IsValid, "la grille non valide IsValid renvoi faux");
         }
-        [TestMethod]
-        [ExpectedException(typeof(InvalidGrilleException),
-            "une grille irruguliere envoie une exception")]
-        public void GrilleIrreguliereFailse() {
-            var i = grilleLigneIregulieres;
+        [Test]
+        public void should_throw_InvalidGrilleException_when_all_line_not_same_length() {
+            Assert.Throws<InvalidGrilleException>(() => {
+                var i = grilleLigneIregulieres;
+            });
         }
-        [TestMethod]
-        [ExpectedException(typeof(InvalidGrilleException),
-            "une grille non carré renvoie une exception")]
-        public void GrilleNonCarréeFail() {
-            var i = grilleNonCarrée;
+        [Test]
+        public void should_throw_InvalidGrilleException_when_gird_not_square() {
+            Assert.Throws<InvalidGrilleException>(() => {
+                var i = grilleNonCarrée;
+            });
         }
-        [TestMethod]
-        [ExpectedException(typeof(InvalidGrilleException),
-            "une grille vide renvoie une exception")]
-        public void GrilleVideFail() {
-            var i = grilleVide;
+        [Test]
+        public void should_throw_InvalidGrilleException_when_empty_grid() {
+            Assert.Throws<InvalidGrilleException>(() => {
+                var i = grilleVide;
+            });
         }
-        [TestMethod]
-        [ExpectedException(typeof(InvalidGrilleException),
-            "une grille avec des charactere non compris dans les charactère possibles renvoie une exception")]
-        public void GrilleMauvaisCharactèreFail() {
-            var i = grilleMauvaisCharactères;
+        [Test]
+        public void should_throw_InvalidGrilleException_when_undeclared_character() {
+            Assert.Throws<InvalidGrilleException>(() => {
+                var i = grilleMauvaisCharactères;
+            });
         }
     }
 }
